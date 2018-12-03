@@ -9,6 +9,7 @@
     void setup()
     {
     Serial.begin(57600);
+    Serial.println("Module is up!");
  pinMode(4,INPUT);
     radio.begin();
     radio.setRetries(15,15);
