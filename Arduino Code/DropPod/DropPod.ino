@@ -29,20 +29,25 @@ int podCatchPin = 10;
 void setup() {
   Serial.begin(9600);
 
-  parachuteCatch.attach(parachuteCatchPin);
+  //Tells the class which pin to communicate with when controlling the servo
+  parachuteCatch.attach(parachuteCatchPin); 
   podCatch.attach(podCatchPin);
 
+  //Sets both the pod catch mechanism and the parachute mechanism to the close position
    podCatch.write(POD_CATCH_CLOSE);
    parachuteCatch.write(PARACHUTE_CATCH_CLOSE);
   
   
-  COMMS.waitForRadioModule(radio); //Waits for radio module to be initialised
-  COMMS.setListening(true, radio); //Actively listens for incoming packets
+  COMMS.waitForRadioModule(radio); //Waits for radio module to be initialised before proceeding
+  COMMS.setListening(true, radio); //Starts to actively listens for incoming packets
 }
 
+/*The drop pod acts as a sort of REST server, it only acts upon commands that are recieved
+*such as data requests (eg. GET_ACCELERATION) or commands (eg. POD_CATCH_OPEN)
+*
+*/
 void loop() {
   checkForIncomingData();
-   
 }
 
 //Checks and acts upon any incoming data packets
