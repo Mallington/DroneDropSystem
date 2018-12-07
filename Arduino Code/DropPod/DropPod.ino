@@ -111,7 +111,6 @@ void parseIncoming(float arr){
   }
 
   if(arr == GET_ORIENTATION){
-    Serial.println("Sending pitch: "+String(pitch));
     COMMS.writeFloat(pitch,radio);
   }
   
