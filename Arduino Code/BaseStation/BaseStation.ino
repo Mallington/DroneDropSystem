@@ -74,11 +74,9 @@ void printOrientation(){
     else{
      successful = 0;
     }
-    Serial.println(orientation);
-    Serial.write((int)orientation);
-    Serial.write(',');
-    Serial.write(successful);
-    Serial.write(';');
+
+    Serial.println(""+String(orientation)+","+successful+";");
+   
   
 }
 
