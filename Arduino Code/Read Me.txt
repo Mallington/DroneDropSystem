@@ -1,0 +1,9 @@
+*The "BaseStation" folder contains the firmware of the remote control/transmitter which is often reffered to as "Base Station through out the code comments". 
+
+*Similarly the "DropPod" folder is the firmware for the device that is attatched and dropped from the bottom of the drone.
+
+*The "Custom Libraries" contain .h files which should also be marked as they are part of the solution and have been written by me as well. They are separate files because both the BaseStation and DropPod firmware depend on the classes and constants for them.
+
+*The "Libraries" folder are open source libraries sourced from Github, here are the sources for them:
+	*Name: MPU6050. Source: https://github.com/jrowberg/i2cdevlib/tree/master/Arduino/MPU6050
+	*Name: RF24 Source: https://github.com/nRF24/RF24
