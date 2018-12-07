@@ -1,7 +1,10 @@
-//Library 
+//Arduino Libraries
 #include <Servo.h>
 #include <SPI.h>
+#include <Wire.h>
 
+//Externally Sourced Libraries
+#include <MPU6050.h> //External library, Source: https://github.com/jrowberg/i2cdevlib/tree/master/Arduino/MPU6050
 #include "RF24.h"//External library, Source: https://github.com/nRF24/RF24
 
 //These are separate class files (PLEASE MARK THIS TOO)
@@ -26,9 +29,20 @@ int parachuteCatchPin = 9; //Pin value referenced with the signal wire of this s
 Servo podCatch; //This mechanism traps the latch on the pod into a slot in the drone harness, securing it too the drone
 int podCatchPin = 10; 
 
+//Accelerometer values and objects
+float pitch = 0; //current pitch
+float roll = 0;//current roll
+float yaw = 0;//current yaw
+float lastUpdateTime =0;//last time in millis that the roll,pitch,yaw was updated
+MPU6050 mpu; //Initiation of MPU object
+
 void setup() {
   Serial.begin(9600);
-
+  
+  mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G);//Initialises the module
+  mpu.calibrateGyro();//Sets default positions to 0
+  mpu.setThreshold(3);//Sets the threshold value
+  
   //Tells the class which pin to communicate with when controlling the servo
   parachuteCatch.attach(parachuteCatchPin); 
   podCatch.attach(podCatchPin);
@@ -47,7 +61,8 @@ void setup() {
 *
 */
 void loop() {
-  checkForIncomingData();
+  checkForIncomingData();//Let's see if there is any incoming data right now
+  updateGyroMovement();//Lets update our current orientation
 }
 
 //Checks and acts upon any incoming data packets
@@ -57,14 +72,32 @@ void checkForIncomingData(){
     parseIncoming(COMMS.read(1, radio)[0]); // Lets read them to an array and parse the command we just captured
   }
 }
+
+//Updates 
+void updateGyroMovement(){
+   // Read normalized values
+  Vector norm = mpu.readNormalizeGyro();
+  
+  float lastUpdatePeriod = ((millis())-(lastUpdateTime))/1000.0; //Calculates time in seconds since last gyro movement update
+ 
+  lastUpdateTime= millis(); //Sets time period for next calculation
+
+  // Calculate Pitch, Roll and Yaw
+  pitch = pitch + norm.YAxis * lastUpdatePeriod;
+  roll = roll + norm.XAxis * lastUpdatePeriod;
+  yaw = yaw + norm.ZAxis * lastUpdatePeriod;
+}
+
 void parseIncoming(float arr){
-  Serial.println("Packet recieved:"+String(arr));
+//For all command definitions, see Communications.h file for comments
   if(arr == PING){
     COMMS.pong(arr, radio);
   }
+  
   if(arr == DETATCH_POD){
     podCatch.write(POD_CATCH_OPEN);
   }
+  
   if(arr == ATTATCH_POD){
     podCatch.write(POD_CATCH_CLOSE);
   }
@@ -77,12 +110,9 @@ void parseIncoming(float arr){
     parachuteCatch.write(PARACHUTE_CATCH_CLOSE);
   }
 
-  if(arr == GET_ACCELERATION){
-    
-  }
-
   if(arr == GET_ORIENTATION){
-    
+    Serial.println("Sending pitch: "+String(pitch));
+    COMMS.writeFloat(pitch,radio);
   }
   
 }

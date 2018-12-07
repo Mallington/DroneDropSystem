@@ -69,9 +69,9 @@ Communication::Communication(boolean thisIsBaseStation) // Main initialiser for 
 //This method simply stalls arduino until the RF24 module has started up
 void Communication::waitForRadioModule(RF24 radio){
 	while(!setupComms(radio)) { //Has the radio module initialised?
-    Serial.println("RF24 Fail"); //Nope, in this case user needs to check pins
+    //Serial.println("RF24 Fail"); //Nope, in this case user needs to check pins
   }
-    Serial.println("RF24 Up!"); // Yes it has
+   // Serial.println("RF24 Up!"); // Yes it has
 }
 
 //This method reads incoming packets (consisting of a float array of fixed length) and returns it

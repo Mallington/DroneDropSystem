@@ -47,11 +47,11 @@ void Led::progressEpoch(){
       if(epochProg %2 ==0){ // Is the half epoch number even?
         //Yes
         digitalWrite(LED, HIGH); //Lets set the LED to high
-        Serial.println("High:"+String(LED));
+       // Serial.println("High:"+String(LED));
       }
       else{
         //No it is odd
-        Serial.println("Low: "+String(LED)); 
+        //Serial.println("Low: "+String(LED)); 
         digitalWrite(LED, LOW); // Lets set it to low
       }
   }
