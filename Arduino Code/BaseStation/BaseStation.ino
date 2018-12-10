@@ -52,7 +52,7 @@ void loop() {
 }
 
 void printOrientation(){
-  int startTime = millis();
+  float startTime = millis();
   boolean timeout= false;
   float orientation =0;
   int successful =1;

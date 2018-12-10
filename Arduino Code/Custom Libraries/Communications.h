@@ -94,7 +94,7 @@ boolean Communication::incoming(RF24 radio){
 
 boolean Communication::ping(int timeoutMillis, RF24 radio){
 	float pingValue = 0.0f;
-	int startTime = millis();
+	float startTime = millis();
 	boolean timeout= false;
 
 	float packet[1] = {pingValue};
