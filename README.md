@@ -4,5 +4,8 @@ Watch the video here:
 
 [![Drone Drop Pod Video](https://img.youtube.com/vi/UZBA4tZbndI/0.jpg)](https://www.youtube.com/watch?v=UZBA4tZbndI)
 
-Here are the final schematics:
-![](https://raw.githubusercontent.com/Mallington/WhackAMole/master/Screenshot%202018-11-22%20at%2020.30.46.png)
+Base Station (Transmitter) Schematics:
+![](https://raw.githubusercontent.com/Mallington/DroneDropSystem/master/Schematics/BaseStationSchematic.png)
+
+Drop Pod Schematics:
+![](https://raw.githubusercontent.com/Mallington/DroneDropSystem/master/Schematics/DropPodSchematic.png)
